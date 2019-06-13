@@ -34,7 +34,7 @@ class Group(APIGroup):
         """
         return self.get(
             self.url(f'/accounts/{accountID}/transactions'),
-            params=dict({'type': args}, **kwargs)
+            params=dict({'type': ','.join(args)}, **kwargs)
         )
 
     def details(self, accountID: str, transactionID: int) -> Response:
@@ -74,7 +74,7 @@ class Group(APIGroup):
         """
         return self.get(
             self.url(f'/accounts/{accountID}/transactions/idrange'),
-            params={'from': since, 'to': until, 'type': args}
+            params={'from': since, 'to': until, 'type': ','.join(args)}
         )
 
     def sinceid(self, accountID: str, transactionID: int) -> Response:

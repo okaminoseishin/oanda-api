@@ -56,7 +56,7 @@ class Group(APIGroup):
         """
         return self.get(
             self.url(f'/accounts/{accountID}/instruments'),
-            params={'instruments': args}
+            params={'instruments': ','.join(args)}
         )
 
     def configuration(self, accountID: str, **kwargs) -> Response:

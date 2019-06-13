@@ -36,7 +36,7 @@ class Group(APIGroup):
         """
         return self.get(
             self.url(f'/accounts/{accountID}/trades'),
-            params=dict({'ids': args}, **kwargs)
+            params=dict({'ids': ','.join(args)}, **kwargs)
         )
 
     def openTrades(self, accountID: str) -> Response:

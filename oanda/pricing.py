@@ -42,7 +42,7 @@ class Group(APIGroup):
         """
         return self.get(
             self.url(f'/accounts/{accountID}/pricing'), params=dict(
-                {'instruments': args, 'since': since}, **kwargs
+                {'instruments': ','.join(args), 'since': since}, **kwargs
             ))
 
     def stream(self, accountID: str, *args, snapshot: bool = True) -> Response:
@@ -79,5 +79,6 @@ class Group(APIGroup):
         """
         return self.get(
             self.url(f'/accounts/{accountID}/pricing/stream'),
-            params={'instruments': args, 'snapshot': snapshot}, stream=True
+            params={'instruments': ','.join(args), 'snapshot': snapshot},
+            stream=True
         )

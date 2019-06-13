@@ -58,7 +58,7 @@ class Group(APIGroup):
         """
         return self.get(
             self.url(f'/accounts/{accountID}/orders'),
-            params=dict({'ids': args}, **kwargs)
+            params=dict({'ids': ','.join(args)}, **kwargs)
         )
 
     def pendingOrders(self, accountID: str) -> Response:
