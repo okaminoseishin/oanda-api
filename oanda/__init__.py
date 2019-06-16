@@ -36,10 +36,10 @@ def moderate(wrapped, instance, args, kwargs):
 
     Returns
     -------
-        APIResponse or response.json()
+        APIResponse or response.json() or generator
             Return prepared and checked Response with additional features,
-            or, depending on unpack attribute of context, loaded body.
-            Stream response always returned as APIResponse object.
+            or, depending on unpack attribute of context, loaded body (for
+            stream response - loaded lines generator).
 
     Raises
     ------
@@ -62,8 +62,10 @@ def moderate(wrapped, instance, args, kwargs):
     response = APIResponse.convert(wrapped(*args, **kwargs))
     if response.status_code not in (200, 201):
         raise APIError(response)
-    if instance.context.unpack and 'stream' not in response.url:
-        return response.json()
+    if instance.context.unpack:
+        if 'stream' not in response.url:
+            return response.json()
+        return response.jsonlines()
     return response
 
 
@@ -171,7 +173,7 @@ class APIResponse(Response):
         return body if nativetypes else AttributeDictionary(body)
 
     def jsonlines(
-        self, nativetypes: bool = False, heartbeat: bool = True, **kwargs
+        self, nativetypes: bool = False, heartbeat: bool = False, **kwargs
     ):
         """
         Deserialises stream lines into data structure which type depends

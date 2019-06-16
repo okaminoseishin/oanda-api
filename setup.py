@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='oanda',
-    version=0.3,
+    version=0.4,
     description='Wrapper for Oanda V20 API',
     project_urls={
         'Source code': 'https://github.com/okaminoseishin/oanda-api'
